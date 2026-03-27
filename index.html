@@ -556,9 +556,10 @@ function csvToOfficers(rows) {
   })).filter(o => o.name);
 }
 
-function nd(v) {  // normalizeDate
+function nd(v) {  // normalizeDate — preserves 'admin' as-is
   if (!v) return '';
   v = v.trim();
+  if (v.toLowerCase() === 'admin') return 'admin';
   if (/^\d{4}-\d{2}-\d{2}/.test(v)) return v.substring(0,10);
   const m = v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
   if (m) return `${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
@@ -567,8 +568,14 @@ function nd(v) {  // normalizeDate
   return v;
 }
 
-function daysUntil(ds) { return ds ? Math.ceil((new Date(ds) - TODAY) / 86400000) : null; }
+function isAdmin(v) { return v && v.toLowerCase() === 'admin'; }
+
+function daysUntil(ds) {
+  if (!ds || isAdmin(ds)) return null;
+  return Math.ceil((new Date(ds) - TODAY) / 86400000);
+}
 function certCode(ds) {
+  if (isAdmin(ds)) return 'green';
   const d = daysUntil(ds);
   if (d === null) return 'gray';
   if (d <= 0) return 'red';
@@ -591,14 +598,15 @@ function fmtLeft(ds) {
 function annualStatus(o, year) {
   if (!o.guardExp && !o.preAssignment) return 'na';
   const f = YEAR_FIELDS[year]; if (!f) return 'na';
-  if (o.guardExp && new Date(o.guardExp) < new Date(`${year}-01-01`)) return 'na';
-  if (o.preAssignment && new Date(o.preAssignment) > new Date(`${year}-12-31`)) return 'na';
-  if (o[f]) return 'done';
+  // admin on the license or pre-assignment means they're considered licensed
+  if (!isAdmin(o.guardExp) && o.guardExp && new Date(o.guardExp) < new Date(`${year}-01-01`)) return 'na';
+  if (!isAdmin(o.preAssignment) && o.preAssignment && new Date(o.preAssignment) > new Date(`${year}-12-31`)) return 'na';
+  if (o[f]) return 'done'; // includes 'admin'
   if (year < CY) return 'norecord';
   return 'due';
 }
-function ojtStatus(o)  { return o.ojt16hr ? 'done' : (o.preAssignment||o.guardExp) ? 'missing' : 'na'; }
-function preStatus(o)  { return o.preAssignment ? 'done' : (o.guardExp||o.id) ? 'missing' : 'na'; }
+function ojtStatus(o)  { return (o.ojt16hr) ? 'done' : (o.preAssignment||o.guardExp) ? 'missing' : 'na'; }
+function preStatus(o)  { return (o.preAssignment) ? 'done' : (o.guardExp||o.id) ? 'missing' : 'na'; }
 
 function rowColor(o) {
   const g = certCode(o.guardExp);
@@ -712,6 +720,7 @@ function render() {
 
 function licCell(o, code) {
   if (!o.guardExp) return `<span class="lic-date gray">No record</span><div class="lic-remaining" style="color:rgba(248,81,73,0.75);font-family:var(--mono);font-size:10px;margin-top:2px">License expiry missing</div>`;
+  if (isAdmin(o.guardExp)) return `<span class="lic-date green">—</span><div class="lic-remaining green">on file</div>${o.licType?`<div class="lic-type">${o.licType}</div>`:''}`;
   const date = fmtDate(o.guardExp,{month:'short',day:'numeric',year:'numeric'});
   const left = fmtLeft(o.guardExp);
   const expired = daysUntil(o.guardExp) <= 0;
@@ -724,11 +733,11 @@ function annualCell(o, a26, a25, a24) {
   const curField = YEAR_FIELDS[CY];
   let badge = '';
   if      (a26==='na')      badge = `<span class="annual-badge na">N/A</span>`;
-  else if (a26==='done')    badge = `<span class="annual-badge done">${CY} ✓ ${fmtDate(o[curField],{month:'short',day:'numeric'})}</span>`;
+  else if (a26==='done')    badge = `<span class="annual-badge done">${CY} ✓ ${isAdmin(o[curField]) ? '—' : fmtDate(o[curField],{month:'short',day:'numeric'})}</span>`;
   else if (a26==='due')     badge = `<span class="annual-badge pending">${CY} — Due by Dec 31</span>`;
   else if (a26==='overdue') badge = `<span class="annual-badge overdue">${CY} Overdue</span>`;
   function pill(yr,st,field) {
-    if (st==='done') return `<span class="yr-pill done">${yr} ✓ ${fmtDate(o[field],{month:'short'})}</span>`;
+    if (st==='done') return `<span class="yr-pill done">${yr} ✓ ${isAdmin(o[field]) ? '—' : fmtDate(o[field],{month:'short'})}</span>`;
     return `<span class="yr-pill na">${yr} —</span>`;
   }
   return `${badge}<div class="prior-years">${pill(CY-1,a25,YEAR_FIELDS[CY-1])}${pill(CY-2,a24,YEAR_FIELDS[CY-2])}</div>`;
@@ -741,10 +750,8 @@ function issuesCell(issues) {
 
 function cprCell(o) {
   const code = certCode(o.cprExp);
-  if (!o.cprExp) {
-    return `<span class="cpr-date red">No record</span>
-            <div class="cpr-remaining red">CPR not on file</div>`;
-  }
+  if (!o.cprExp) return `<span class="cpr-date red">No record</span><div class="cpr-remaining red">CPR not on file</div>`;
+  if (isAdmin(o.cprExp)) return `<span class="cpr-date green">—</span><div class="cpr-remaining green">on file</div>${o.cprIssuer?`<div class="cpr-issuer">${o.cprIssuer}</div>`:''}`;
   const date    = fmtDate(o.cprExp, {month:'short', day:'numeric', year:'numeric'});
   const left    = fmtLeft(o.cprExp);
   const expired = daysUntil(o.cprExp) <= 0;
@@ -860,19 +867,19 @@ function openModal(o) {
   function preRow(){
     const s=preStatus(o);
     if(s==='na')  return row('8-hr Pre-Assignment',`<span class="comp-val na">Not required</span>`);
-    if(s==='done')return row('8-hr Pre-Assignment',`<span class="comp-val ok">✓ ${fmtDate(o.preAssignment)}</span>`);
+    if(s==='done') return row('8-hr Pre-Assignment', isAdmin(o.preAssignment) ? `<span class="comp-val ok">— on file</span>` : `<span class="comp-val ok">✓ ${fmtDate(o.preAssignment)}</span>`);
     return row('8-hr Pre-Assignment',`<span class="comp-val fail">✗ Missing — required before employment</span>`);
   }
   function ojtRow(){
     const s=ojtStatus(o);
     if(s==='na')  return row('16-hr OJT',`<span class="comp-val na">Not required</span>`);
-    if(s==='done')return row('16-hr OJT',`<span class="comp-val ok">✓ ${fmtDate(o.ojt16hr)}</span>`);
+    if(s==='done') return row('16-hr OJT', isAdmin(o.ojt16hr) ? `<span class="comp-val ok">— on file</span>` : `<span class="comp-val ok">✓ ${fmtDate(o.ojt16hr)}</span>`);
     return row('16-hr OJT',`<span class="comp-val fail">✗ Missing — req. within 90 days of hire</span>`);
   }
   function annRow(yr,st,field){
     let val;
-    if(st==='na')       val=`<span class="comp-val na">Not required</span>`;
-    else if(st==='done')     val=`<span class="comp-val ok">✓ ${fmtDate(o[field])}</span>`;
+    if(st==='na')            val=`<span class="comp-val na">Not required</span>`;
+    else if(st==='done')     val=isAdmin(o[field]) ? `<span class="comp-val ok">— on file</span>` : `<span class="comp-val ok">✓ ${fmtDate(o[field])}</span>`;
     else if(st==='due')      val=`<span class="comp-val warn">Due by Dec 31, ${yr}</span>`;
     else if(st==='norecord') val=`<span class="comp-val na">No record on file</span>`;
     else val=`<span class="comp-val na">—</span>`;
@@ -880,6 +887,7 @@ function openModal(o) {
   }
   function detRow(label,ds,code,sub){
     if(!ds)return `<div class="detail-item"><div class="dl">${label}</div><div class="dv" style="color:#686868">—</div></div>`;
+    if(isAdmin(ds))return `<div class="detail-item"><div class="dl">${label}</div><div class="dv" style="color:var(--green)">— on file</div>${sub?`<div class="dl" style="margin-top:2px">${sub}</div>`:''}</div>`;
     const color=code==='red'?'var(--red)':code==='amber'?'var(--amber)':code==='green'?'var(--green)':'var(--text-muted)';
     const tl=fmtLeft(ds);
     return `<div class="detail-item"><div class="dl">${label}</div><div class="dv" style="color:${color}">${fmtDate(ds)}${tl?' — '+tl:''}</div>${sub?`<div class="dl" style="margin-top:2px">${sub}</div>`:''}</div>`;
