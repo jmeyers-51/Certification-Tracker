@@ -83,12 +83,9 @@
   .filter-btn { background: none; border: 1px solid var(--border); color: #888888; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 11px; font-family: var(--sans); transition: all 0.12s; white-space: nowrap; }
   .filter-btn:hover { border-color: var(--accent); color: var(--text); }
   .filter-btn.active { background: var(--surface2); border-color: var(--accent); color: var(--accent); font-weight: 500; }
-
-  /* NEEDS ACTION BUTTON */
   .action-btn { background: var(--red-bg); border: 1px solid var(--red-border); color: var(--red); padding: 5px 12px; border-radius: 5px; cursor: pointer; font-size: 11px; font-family: var(--sans); font-weight: 600; transition: all 0.12s; white-space: nowrap; display: flex; align-items: center; gap: 5px; }
   .action-btn:hover { background: rgba(248,81,73,0.2); }
   .action-btn.active { background: var(--red); color: #0d1117; border-color: var(--red); }
-
   .status-filters { display: flex; gap: 4px; margin-left: auto; }
   .status-badge-btn { display: flex; align-items: center; gap: 4px; padding: 4px 9px; border-radius: 20px; border: 1px solid transparent; cursor: pointer; font-size: 10px; font-family: var(--mono); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; transition: opacity 0.12s; opacity: 0.35; }
   .status-badge-btn.active { opacity: 1; }
@@ -118,7 +115,7 @@
   .section-sub   { font-family: var(--mono); font-size: 9.5px; color: #888888; }
   .officer-count { font-family: var(--mono); font-size: 11px; color: #888888; white-space: nowrap; }
 
-  table { width: 100%; border-collapse: collapse; min-width: 760px; }
+  table { width: 100%; border-collapse: collapse; min-width: 1060px; }
   thead th {
     background: var(--surface); border-bottom: 1px solid var(--border);
     padding: 8px 12px; text-align: left; font-family: var(--mono); font-size: 9px;
@@ -131,7 +128,6 @@
   thead th.sort-asc::after  { content: ' ↑'; color: var(--accent); }
   thead th.sort-desc::after { content: ' ↓'; color: var(--accent); }
   thead th.primary-col { color: #b0b0b0; font-size: 9.5px; }
-
   tbody tr { border-bottom: 1px solid rgba(255,255,255,0.06); transition: background 0.1s; cursor: pointer; }
   tbody tr:hover { background: rgba(255,255,255,0.04); }
   tbody tr.hidden { display: none; }
@@ -147,7 +143,6 @@
   .role-pill.lt      { background: rgba(183,148,246,0.12); color: #b794f6; border: 1px solid rgba(183,148,246,0.25); }
   .role-pill.sgt     { background: rgba(45,212,191,0.10); color: #2dd4bf;  border: 1px solid rgba(45,212,191,0.22); }
   .role-pill.officer { background: rgba(255,255,255,0.05); color: #888888; border: 1px solid rgba(255,255,255,0.10); }
-  .notes-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--amber); margin-left: 5px; vertical-align: middle; flex-shrink: 0; }
 
   /* LICENSE CELL */
   .lic-cell { min-width: 155px; }
@@ -171,7 +166,30 @@
   .yr-pill.done { background: rgba(63,185,80,0.09); color: rgba(63,185,80,0.7); }
   .yr-pill.na   { color: #686868; }
 
-  /* CERTS CELL */
+  /* ISSUES CELL */
+  .issues-cell { min-width: 160px; }
+  .issue-tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 9.5px; font-family: var(--mono); padding: 2px 7px;
+    border-radius: 3px; border: 1px solid transparent;
+    margin: 1px 2px 1px 0; white-space: nowrap; line-height: 1.4;
+  }
+  .issue-tag.hard { background: var(--red-bg); border-color: var(--red-border); color: var(--red); }
+  .issue-tag.soft { background: var(--amber-bg); border-color: var(--amber-border); color: var(--amber); }
+  .issue-tag.info { background: var(--blue-bg); border-color: var(--blue-border); color: var(--blue); }
+  .no-issues { font-family: var(--mono); font-size: 10px; color: #444444; }
+
+  /* CPR CELL */
+  .cpr-cell { min-width: 120px; }
+  .cpr-date { font-family: var(--mono); font-size: 13px; font-weight: 600; line-height: 1.15; }
+  .cpr-date.green { color: var(--green); } .cpr-date.amber { color: var(--amber); }
+  .cpr-date.red   { color: var(--red); }   .cpr-date.gray  { color: var(--text-dim); }
+  .cpr-remaining { font-family: var(--mono); font-size: 10px; margin-top: 2px; }
+  .cpr-remaining.green { color: rgba(63,185,80,0.75); }  .cpr-remaining.amber { color: rgba(224,168,32,0.80); }
+  .cpr-remaining.red   { color: rgba(248,81,73,0.80); }  .cpr-remaining.gray  { color: #686868; }
+  .cpr-issuer { font-size: 10px; color: #888888; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px; }
+
+
   .certs-cell { min-width: 160px; }
   .ctag { display: inline-flex; align-items: center; gap: 3px; font-size: 9.5px; font-family: var(--mono); padding: 2px 6px; border-radius: 3px; border: 1px solid transparent; margin: 1px 1px 1px 0; white-space: nowrap; }
   .ctag.cpr-ok   { background: var(--green-bg); border-color: var(--green-border); color: var(--green); }
@@ -227,7 +245,6 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
   <div class="header-left">
     <div class="shield-icon">
@@ -248,7 +265,6 @@
   </div>
 </header>
 
-<!-- CONFIG -->
 <div class="config-bar" id="configBar">
   <div class="config-section">
     <div class="config-row">
@@ -268,24 +284,20 @@
   </div>
 </div>
 
-<!-- SHEET STATUS BAR -->
 <div class="sheet-bar" id="sheetBar">
   <span class="dot-offline" id="sheetDot"></span>
   <span id="sheetBarText">Using embedded data — connect a Google Sheet in ⚙ Settings to sync live data</span>
 </div>
-
 <div id="load-banner"></div>
 
-<!-- STATS — clicking red/amber triggers Needs Action view -->
 <div class="stats-row">
   <div class="stat-card"><div class="stat-num" id="statTotal">—</div><div class="stat-label">Total Officers</div></div>
-  <div class="stat-card red clickable" onclick="setNeedsAction(true)" title="Show officers needing action"><div class="stat-num" id="statNysIssues">—</div><div class="stat-label">Compliance Issues</div></div>
-  <div class="stat-card amber clickable" onclick="setNeedsAction(true)" title="Show officers needing action"><div class="stat-num" id="statExpiring">—</div><div class="stat-label">License Expiring Soon</div></div>
+  <div class="stat-card red clickable" onclick="setNeedsAction(true)"><div class="stat-num" id="statNysIssues">—</div><div class="stat-label">Compliance Issues</div></div>
+  <div class="stat-card amber clickable" onclick="setNeedsAction(true)"><div class="stat-num" id="statExpiring">—</div><div class="stat-label">License Expiring Soon</div></div>
   <div class="stat-card blue"><div class="stat-num" id="statOnTrack">—</div><div class="stat-label" id="statOnTrackLabel">On Track — Training Due</div></div>
   <div class="stat-card green"><div class="stat-num" id="statCompliant">—</div><div class="stat-label">Fully Compliant</div></div>
 </div>
 
-<!-- TOOLBAR -->
 <div class="toolbar">
   <div class="search-wrap">
     <span class="search-icon"><svg width="12" height="12" viewBox="0 0 13 13" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="#686868" stroke-width="1.5"/><line x1="9" y1="9" x2="12" y2="12" stroke="#686868" stroke-width="1.5" stroke-linecap="round"/></svg></span>
@@ -296,10 +308,7 @@
     <button class="filter-btn"        data-group="Full Time"          onclick="setGroupFilter(this)">Full Time</button>
     <button class="filter-btn"        data-group="Per Diem/Part Time" onclick="setGroupFilter(this)">Per Diem</button>
   </div>
-  <!-- NEEDS ACTION -->
-  <button class="action-btn" id="actionBtn" onclick="toggleNeedsAction()">
-    Needs Action
-  </button>
+  <button class="action-btn" id="actionBtn" onclick="toggleNeedsAction()">Needs Action</button>
   <div class="status-filters">
     <button class="status-badge-btn red   active" data-status="red"   onclick="toggleStatusFilter(this)">● Issues</button>
     <button class="status-badge-btn amber active" data-status="amber" onclick="toggleStatusFilter(this)">● Expiring</button>
@@ -309,20 +318,17 @@
   </div>
 </div>
 
-<!-- LEGEND -->
 <div class="legend-strip">
   <span class="legend-label">Color key</span>
   <div class="legend-group"><span class="ls green"></span><span class="legend-text">Fully compliant</span></div>
-  <div class="legend-group"><span class="ls blue"></span><span class="legend-text">On track — 2026 training pending</span></div>
+  <div class="legend-group"><span class="ls blue"></span><span class="legend-text">On track — training pending</span></div>
   <div class="legend-group"><span class="ls amber"></span><span class="legend-text">Expiring / Due Soon</span></div>
   <div class="legend-group"><span class="ls red"></span><span class="legend-text">Expired / Missing / Action needed</span></div>
   <span class="legend-sep"></span>
   <div class="legend-group"><span class="ls teal"></span><span class="legend-text">One-time training on record</span></div>
   <div class="legend-group"><span class="ls purple"></span><span class="legend-text">Supplemental training</span></div>
-  <div class="legend-group"><span class="ls gray"></span><span class="legend-text">Not required / N/A</span></div>
 </div>
 
-<!-- TABLE -->
 <div class="main-content">
   <div class="section-header">
     <div>
@@ -337,6 +343,8 @@
         <th class="sortable" data-sort="name" onclick="sortBy(this)">Officer</th>
         <th class="sortable primary-col lic-cell" data-sort="guardExp" onclick="sortBy(this)">NYS License Expiry</th>
         <th class="sortable nys-cell" data-sort="annual" onclick="sortBy(this)">Annual 8-hr Training</th>
+        <th class="issues-cell hide-sm">Open Issues</th>
+        <th class="cpr-cell hide-sm">CPR</th>
         <th class="certs-cell hide-sm">Other Certifications</th>
       </tr>
     </thead>
@@ -344,7 +352,6 @@
   </table>
 </div>
 
-<!-- NYS FOOTER -->
 <div class="nys-footer">
   <div class="nys-footer-title">New York State Security Guard Training Requirements — NYS GBL §89-n &amp; NYS DOS</div>
   <div class="nys-rules">
@@ -356,7 +363,6 @@
 </div>
 <div class="footer-end"></div>
 
-<!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="modal-header">
@@ -369,112 +375,80 @@
 
 <script>
 // ─────────────────────────────────────────────
-//  FALLBACK EMBEDDED DATA
-//  This is used when no Google Sheet is connected.
-//  Column order matches the Google Sheet header row exactly.
-//  NOTE: The authoritative source is the Google Sheet.
-//  To update data: edit the sheet, click "Sync Sheet".
+//  EMBEDDED DATA — authoritative source is the Google Sheet
+//  Update the sheet and click Sync Sheet; only re-bake this if
+//  the sheet connection is unavailable long-term.
 // ─────────────────────────────────────────────
 const EMBEDDED_DATA = [
-  { name:"Sarah Darabon",   group:"Full Time",          id:"10015918359", licType:"Security Guard - Unarmed", guardExp:"2026-05-15", cprExp:"2028-02-28", cprIssuer:"AHA",         stb:"2022-04-13", mhfa:"",           fema100:"",           fema363:"",           sga:"2022-06-24", ocSpray:"",                     handcuffs:"",                     inservice2026:"",         inservice2025:"2025-08-04", inservice2024:"2024-03-25", preAssignment:"2021-12-16", ojt16hr:"2022-04-15", notes:"" },
-  { name:"Carol Huckle",    group:"Full Time",          id:"10000635941", licType:"Security Guard - Unarmed", guardExp:"2026-11-15", cprExp:"2027-09-30", cprIssuer:"AHA",         stb:"",           mhfa:"2025-03-17", fema100:"2023-02-24", fema363:"2023-03-07", sga:"",           ocSpray:"",                     handcuffs:"",                     inservice2026:"",         inservice2025:"2025-06-17", inservice2024:"2024-02-23", preAssignment:"1996-07-18", ojt16hr:"1997-04-26", notes:"" },
-  { name:"Connor Caldwell", group:"Full Time",          id:"10016439775", licType:"Security Guard - Unarmed", guardExp:"2027-07-17", cprExp:"2027-06-30", cprIssuer:"2025 SLU",    stb:"",           mhfa:"2025-03-17", fema100:"",           fema363:"",           sga:"2025-06-20", ocSpray:"",                     handcuffs:"SLU Academy",          inservice2026:"",         inservice2025:"2025-08-04", inservice2024:"",           preAssignment:"2023-01-20", ojt16hr:"2025-06-23", notes:"2025: 6/17 & 8/4" },
-  { name:"Mark Wentworth",  group:"Full Time",          id:"10016456608", licType:"Security Guard - Unarmed", guardExp:"2027-07-27", cprExp:"2027-09-30", cprIssuer:"AHA",         stb:"",           mhfa:"2025-03-17", fema100:"2023-02-24", fema363:"2023-02-26", sga:"",           ocSpray:"Retired Police Officer", handcuffs:"Retired Police Officer",inservice2026:"",         inservice2025:"2025-06-17", inservice2024:"2024-02-23", preAssignment:"2018-06-19", ojt16hr:"2018-06-28", notes:"Retired Police Officer" },
-  { name:"Matthew Volz",    group:"Full Time",          id:"10017710960", licType:"Security Guard - Unarmed", guardExp:"2027-08-11", cprExp:"2028-02-28", cprIssuer:"AHA",         stb:"2026-01-29", mhfa:"",           fema100:"2014-01-01", fema363:"",           sga:"",           ocSpray:"NYSDOCCS",             handcuffs:"NYSDOCCS",             inservice2026:"2026-03-23", inservice2025:"",           inservice2024:"",           preAssignment:"2025-06-19", ojt16hr:"2014-11-02", notes:"ICS-200, ICS-700, ICS-800" },
-  { name:"Corbin Ladison",  group:"Full Time",          id:"10017710934", licType:"Security Guard - Unarmed", guardExp:"2027-08-11", cprExp:"2026-06-30", cprIssuer:"AHA",         stb:"2026-01-29", mhfa:"2025-03-17", fema100:"2023-06-01", fema363:"",           sga:"2025-06-20", ocSpray:"",                     handcuffs:"SLU Academy",          inservice2026:"2026-03-23", inservice2025:"",           inservice2024:"",           preAssignment:"2025-06-19", ojt16hr:"2025-06-24", notes:"ICS-200, ICS-700" },
-  { name:"Shawn Morrill",   group:"Full Time",          id:"10017757434", licType:"Security Guard - Unarmed", guardExp:"2027-09-14", cprExp:"2027-06-30", cprIssuer:"2025 SLU",    stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"2025-06-20", ocSpray:"NYSDOCCS",             handcuffs:"NYSDOCCS",             inservice2026:"",         inservice2025:"",           inservice2024:"",           preAssignment:"2025-06-19", ojt16hr:"2025-06-23", notes:"Annual 2025 not on record." },
-  { name:"Brendan Bombard", group:"Full Time",          id:"10017842255", licType:"Security Guard - Unarmed", guardExp:"2027-11-13", cprExp:"",           cprIssuer:"",            stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"",           ocSpray:"",                     handcuffs:"",                     inservice2026:"",         inservice2025:"",           inservice2024:"",           preAssignment:"2024-10-27", ojt16hr:"",           notes:"SGA: Need to send. OJT 16-hr not on record." },
-  { name:"John Meyers",     group:"Full Time",          id:"10016560722", licType:"Security Guard - Unarmed", guardExp:"2027-12-28", cprExp:"2026-07-31", cprIssuer:"ASHI",        stb:"2026-01-29", mhfa:"",           fema100:"2023-01-01", fema363:"",           sga:"",           ocSpray:"Phase 1 Police Acad.", handcuffs:"Phase 1 Police Acad.", inservice2026:"2026-03-23", inservice2025:"2025-12-12", inservice2024:"2024-04-02", preAssignment:"2023-07-21", ojt16hr:"2023-08-18", notes:"ICS-200, ICS-700" },
-  { name:"Wesley Hissong",  group:"Full Time",          id:"10015854450", licType:"Security Guard - Armed",   guardExp:"2028-03-22", cprExp:"",           cprIssuer:"",            stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"",           ocSpray:"",                     handcuffs:"",                     inservice2026:"",         inservice2025:"",           inservice2024:"2024-07-25",         preAssignment:"1999-06-16", ojt16hr:"2024-03-10", notes:"Armed guard. 2025 annual not on record." },
-  // Per Diem — Ronnie Simser is Per Diem only
-  { name:"Ronnie Simser",   group:"Per Diem/Part Time", id:"10017344966", licType:"Security Guard - Unarmed", guardExp:"2026-12-23", cprExp:"",           cprIssuer:"",            stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"2025-06-20", ocSpray:"",                     handcuffs:"SLU Academy",          inservice2026:"",         inservice2025:"2025-08-04", inservice2024:"",           preAssignment:"2024-12-10", ojt16hr:"",           notes:"OJT 16-hr not on record." },
-  { name:"Daniel Richter",  group:"Per Diem/Part Time", id:"10017471733", licType:"Security Guard - Unarmed", guardExp:"2027-03-10", cprExp:"",           cprIssuer:"",            stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"",           ocSpray:"",                     handcuffs:"",                     inservice2026:"",         inservice2025:"",           inservice2024:"",           preAssignment:"2025-02-18", ojt16hr:"2025-02-20", notes:"" },
-  { name:"Scott Simons",    group:"Per Diem/Part Time", id:"10016437341", licType:"Security Guard - Unarmed", guardExp:"2027-07-16", cprExp:"2027-09-30", cprIssuer:"AHA",         stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"",           ocSpray:"",                     handcuffs:"",                     inservice2026:"",         inservice2025:"2025-08-04", inservice2024:"",           preAssignment:"2017-10-25", ojt16hr:"2017-11-16", notes:"2025: 6/17 & 8/4" },
-  { name:"Mark Salisbury",  group:"Per Diem/Part Time", id:"10016437353", licType:"Security Guard - Unarmed", guardExp:"2027-08-28", cprExp:"",           cprIssuer:"",            stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"",           ocSpray:"",                     handcuffs:"",                     inservice2026:"",         inservice2025:"2025-08-13", inservice2024:"",           preAssignment:"2021-12-16", ojt16hr:"2022-04-15", notes:"2025: 8/4 & 8/13" },
-  { name:"Jeffrey Dumas",   group:"Per Diem/Part Time", id:"10017801654", licType:"Security Guard - Unarmed", guardExp:"2027-10-15", cprExp:"2027-10-31", cprIssuer:"AHA",         stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"",           ocSpray:"NYSDOCCS",             handcuffs:"NYSDOCCS",             inservice2026:"",         inservice2025:"",           inservice2024:"",           preAssignment:"2025-10-06", ojt16hr:"",           notes:"OJT 16-hr not on record." },
-  { name:"James Wilson",    group:"Per Diem/Part Time", id:"",            licType:"",                         guardExp:"",           cprExp:"2026-02-28", cprIssuer:"AHA",         stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"",           ocSpray:"",                     handcuffs:"",                     inservice2026:"",         inservice2025:"",           inservice2024:"",           preAssignment:"",           ojt16hr:"",           notes:"License expiry and training records missing." },
-  { name:"Hunter Woodrow",  group:"Per Diem/Part Time", id:"",            licType:"",                         guardExp:"",           cprExp:"2028-02-28", cprIssuer:"AHA",         stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"",           ocSpray:"",                     handcuffs:"",                     inservice2026:"",         inservice2025:"",           inservice2024:"",           preAssignment:"2026-03-03", ojt16hr:"",           notes:"SGA: Need to send. OJT 16-hr not on record." },
+  { name:"Sarah Darabon",   group:"Full Time",          id:"10015918359", licType:"Security Guard - Unarmed", guardExp:"2026-05-15", cprExp:"2028-02-28", cprIssuer:"AHA",         stb:"2022-04-13", mhfa:"",           fema100:"",           fema363:"",           sga:"2022-06-24", ocSpray:"",                      handcuffs:"",                      extraIcs:"",                        inservice2026:"",         inservice2025:"2025-08-04", inservice2024:"2024-03-25", preAssignment:"2021-12-16", ojt16hr:"2022-04-15", notes:"" },
+  { name:"Carol Huckle",    group:"Full Time",          id:"10000635941", licType:"Security Guard - Unarmed", guardExp:"2026-11-15", cprExp:"2027-09-30", cprIssuer:"AHA",         stb:"",           mhfa:"2025-03-17", fema100:"2023-02-24", fema363:"2023-03-07", sga:"",           ocSpray:"",                      handcuffs:"",                      extraIcs:"",                        inservice2026:"",         inservice2025:"2025-06-17", inservice2024:"2024-02-23", preAssignment:"1996-07-18", ojt16hr:"1997-04-26", notes:"" },
+  { name:"Connor Caldwell", group:"Full Time",          id:"10016439775", licType:"Security Guard - Unarmed", guardExp:"2027-07-17", cprExp:"2027-06-30", cprIssuer:"2025 SLU",    stb:"",           mhfa:"2025-03-17", fema100:"",           fema363:"",           sga:"2025-06-20", ocSpray:"",                      handcuffs:"SLU Academy",           extraIcs:"",                        inservice2026:"",         inservice2025:"2025-08-04", inservice2024:"",           preAssignment:"2023-01-20", ojt16hr:"2025-06-23", notes:"2025: 6/17 & 8/4" },
+  { name:"Mark Wentworth",  group:"Full Time",          id:"10016456608", licType:"Security Guard - Unarmed", guardExp:"2027-07-27", cprExp:"2027-09-30", cprIssuer:"AHA",         stb:"",           mhfa:"2025-03-17", fema100:"2023-02-24", fema363:"2023-02-26", sga:"",           ocSpray:"Retired Police Officer",  handcuffs:"Retired Police Officer", extraIcs:"",                        inservice2026:"",         inservice2025:"2025-06-17", inservice2024:"2024-02-23", preAssignment:"2018-06-19", ojt16hr:"2018-06-28", notes:"Retired Police Officer" },
+  { name:"Matthew Volz",    group:"Full Time",          id:"10017710960", licType:"Security Guard - Unarmed", guardExp:"2027-08-11", cprExp:"2028-02-28", cprIssuer:"AHA",         stb:"2026-01-29", mhfa:"",           fema100:"2014-01-01", fema363:"",           sga:"",           ocSpray:"NYSDOCCS",              handcuffs:"NYSDOCCS",              extraIcs:"ICS-200, ICS-700, ICS-800", inservice2026:"2026-03-23", inservice2025:"",           inservice2024:"",           preAssignment:"2025-06-19", ojt16hr:"2014-11-02", notes:"Armed guard. 2025 annual not on record." },
+  { name:"Corbin Ladison",  group:"Full Time",          id:"10017710934", licType:"Security Guard - Unarmed", guardExp:"2027-08-11", cprExp:"2026-06-30", cprIssuer:"AHA",         stb:"2026-01-29", mhfa:"2025-03-17", fema100:"2023-06-01", fema363:"",           sga:"2025-06-20", ocSpray:"",                      handcuffs:"SLU Academy",           extraIcs:"ICS-200, ICS-700",        inservice2026:"2026-03-23", inservice2025:"",           inservice2024:"",           preAssignment:"2025-06-19", ojt16hr:"2025-06-24", notes:"" },
+  { name:"Shawn Morrill",   group:"Full Time",          id:"10017757434", licType:"Security Guard - Unarmed", guardExp:"2027-09-14", cprExp:"2027-06-30", cprIssuer:"2025 SLU",    stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"2025-06-20", ocSpray:"NYSDOCCS",              handcuffs:"NYSDOCCS",              extraIcs:"",                        inservice2026:"",         inservice2025:"",           inservice2024:"",           preAssignment:"2025-06-19", ojt16hr:"2025-06-23", notes:"Annual 2025 not on record." },
+  { name:"Brendan Bombard", group:"Full Time",          id:"10017842255", licType:"Security Guard - Unarmed", guardExp:"2027-11-13", cprExp:"",           cprIssuer:"",            stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"",           ocSpray:"",                      handcuffs:"",                      extraIcs:"",                        inservice2026:"",         inservice2025:"",           inservice2024:"",           preAssignment:"2024-10-27", ojt16hr:"",           notes:"SGA: Need to send. OJT 16-hr not on record." },
+  { name:"John Meyers",     group:"Full Time",          id:"10016560722", licType:"Security Guard - Unarmed", guardExp:"2027-12-28", cprExp:"2026-07-31", cprIssuer:"ASHI",        stb:"2026-01-29", mhfa:"",           fema100:"2023-01-01", fema363:"",           sga:"",           ocSpray:"Phase 1 Police Acad.",  handcuffs:"Phase 1 Police Acad.",  extraIcs:"ICS-200, ICS-700",        inservice2026:"2026-03-23", inservice2025:"2025-12-12", inservice2024:"2024-04-02", preAssignment:"2023-07-21", ojt16hr:"2023-08-18", notes:"" },
+  { name:"Wesley Hissong",  group:"Full Time",          id:"10015854450", licType:"Security Guard - Armed",   guardExp:"2028-03-22", cprExp:"",           cprIssuer:"",            stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"",           ocSpray:"",                      handcuffs:"",                      extraIcs:"",                        inservice2026:"",         inservice2025:"",           inservice2024:"2024-07-25", preAssignment:"1999-06-16", ojt16hr:"2024-03-10", notes:"Armed guard. 2025 annual not on record." },
+  { name:"Ronnie Simser",   group:"Per Diem/Part Time", id:"10017344966", licType:"Security Guard - Unarmed", guardExp:"2026-12-23", cprExp:"",           cprIssuer:"",            stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"2025-06-20", ocSpray:"",                      handcuffs:"SLU Academy",           extraIcs:"",                        inservice2026:"",         inservice2025:"2025-08-04", inservice2024:"",           preAssignment:"2024-12-10", ojt16hr:"",           notes:"OJT 16-hr not on record." },
+  { name:"Daniel Richter",  group:"Per Diem/Part Time", id:"10017471733", licType:"Security Guard - Unarmed", guardExp:"2027-03-10", cprExp:"",           cprIssuer:"",            stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"",           ocSpray:"",                      handcuffs:"",                      extraIcs:"",                        inservice2026:"",         inservice2025:"",           inservice2024:"",           preAssignment:"2025-02-18", ojt16hr:"2025-02-20", notes:"" },
+  { name:"Scott Simons",    group:"Per Diem/Part Time", id:"10016437341", licType:"Security Guard - Unarmed", guardExp:"2027-07-16", cprExp:"2027-09-30", cprIssuer:"AHA",         stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"",           ocSpray:"",                      handcuffs:"",                      extraIcs:"",                        inservice2026:"",         inservice2025:"2025-08-04", inservice2024:"",           preAssignment:"2017-10-25", ojt16hr:"2017-11-16", notes:"2025: 6/17 & 8/4" },
+  { name:"Mark Salisbury",  group:"Per Diem/Part Time", id:"10016437353", licType:"Security Guard - Unarmed", guardExp:"2027-08-28", cprExp:"",           cprIssuer:"",            stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"",           ocSpray:"",                      handcuffs:"",                      extraIcs:"",                        inservice2026:"",         inservice2025:"2025-08-13", inservice2024:"",           preAssignment:"2021-12-16", ojt16hr:"2022-04-15", notes:"2025: 8/4 & 8/13" },
+  { name:"Jeffrey Dumas",   group:"Per Diem/Part Time", id:"10017801654", licType:"Security Guard - Unarmed", guardExp:"2027-10-15", cprExp:"2027-10-31", cprIssuer:"AHA",         stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"",           ocSpray:"NYSDOCCS",              handcuffs:"NYSDOCCS",              extraIcs:"",                        inservice2026:"",         inservice2025:"",           inservice2024:"",           preAssignment:"2025-10-06", ojt16hr:"",           notes:"OJT 16-hr not on record." },
+  { name:"James Wilson",    group:"Per Diem/Part Time", id:"",            licType:"",                         guardExp:"",           cprExp:"2026-02-28", cprIssuer:"AHA",         stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"",           ocSpray:"",                      handcuffs:"",                      extraIcs:"",                        inservice2026:"",         inservice2025:"",           inservice2024:"",           preAssignment:"",           ojt16hr:"",           notes:"License expiry and training records missing." },
+  { name:"Hunter Woodrow",  group:"Per Diem/Part Time", id:"",            licType:"",                         guardExp:"",           cprExp:"2028-02-28", cprIssuer:"AHA",         stb:"",           mhfa:"",           fema100:"",           fema363:"",           sga:"",           ocSpray:"",                      handcuffs:"",                      extraIcs:"",                        inservice2026:"",         inservice2025:"",           inservice2024:"",           preAssignment:"2026-03-03", ojt16hr:"",           notes:"SGA: Need to send. OJT 16-hr not on record." },
 ];
 
-// ─────────────────────────────────────────────
-//  GOOGLE SHEET COLUMN MAP
-//  Keys here must match your Google Sheet header row EXACTLY (case-insensitive, spaces/symbols stripped).
-//  Add new columns to the sheet and map them here — dashboard picks them up on next sync.
-// ─────────────────────────────────────────────
 const COL_MAP = {
   name:'name', group:'group', id:'idnumber', lictype:'licensetype',
   guardExp:'guardlicenseexpiry', cprExp:'cprexpiry', cprIssuer:'cprissuer',
   stb:'stopthebleeddate', mhfa:'mentalhealthfadate',
   fema100:'femaics100date', fema363:'femaics363date', sga:'sgadate',
   ocSpray:'ocspray', handcuffs:'handcuffs', activeShooter:'activeshooter',
+  extraIcs:'extraics',
   inservice2026:'8hrinservice2026', inservice2025:'8hrinservice2025', inservice2024:'8hrinservice2024',
   preAssignment:'8hrpreassignment', ojt16hr:'16hrojt', notes:'notes'
 };
 
-// ─────────────────────────────────────────────
-//  ROLE MAP  (keyed by lowercase last name)
-// ─────────────────────────────────────────────
 const ROLES = {
-  'hissong':  { label: 'Dir',      cls: 'dir',     full: 'Director' },
-  'huckle':   { label: 'Asst Dir', cls: 'asst',    full: 'Asst. Director' },
-  'wentworth':{ label: 'Lt',       cls: 'lt',       full: 'Lieutenant' },
-  'volz':     { label: 'Sgt',      cls: 'sgt',      full: 'Sergeant' },
-  'darabon':  { label: 'Sgt',      cls: 'sgt',      full: 'Sergeant' },
+  'hissong':   { label:'Dir',      cls:'dir',     full:'Director' },
+  'huckle':    { label:'Asst Dir', cls:'asst',    full:'Asst. Director' },
+  'wentworth': { label:'Lt',       cls:'lt',      full:'Lieutenant' },
+  'volz':      { label:'Sgt',      cls:'sgt',     full:'Sergeant' },
+  'darabon':   { label:'Sgt',      cls:'sgt',     full:'Sergeant' },
 };
-const DEFAULT_ROLE = { label: 'Officer', cls: 'officer', full: 'Officer' };
-
+const DEFAULT_ROLE = { label:'Officer', cls:'officer', full:'Officer' };
 function getRole(name) {
   if (!name) return DEFAULT_ROLE;
   const last = name.trim().split(/\s+/).pop().toLowerCase();
   return ROLES[last] || DEFAULT_ROLE;
 }
 
-// ─────────────────────────────────────────────
-//  DYNAMIC YEAR FIELD MAP
-//  Maps calendar year → officer data field name.
-//  Add a new entry each January alongside the new sheet column.
-// ─────────────────────────────────────────────
 const YEAR_FIELDS = {
-  2024: 'inservice2024',
-  2025: 'inservice2025',
-  2026: 'inservice2026',
+  2024:'inservice2024',
+  2025:'inservice2025',
+  2026:'inservice2026',
+  // Add 2027:'inservice2027' each January alongside the new sheet column
 };
 
-// ─────────────────────────────────────────────
-//  EMBEDDED DATA LAST UPDATED (update this when re-baking embedded data)
-// ─────────────────────────────────────────────
 const EMBEDDED_DATE = 'Mar 26, 2026';
 
-// ─────────────────────────────────────────────
-//  STATE
-// ─────────────────────────────────────────────
-let officers = [];
-let threshRed = 30, threshAmber = 90;
+let officers = [], threshRed = 30, threshAmber = 90;
 let groupFilter = 'all';
 let activeStatuses = new Set(['red','amber','blue','green','gray']);
-let needsActionMode = false;
-let sortCol = null, sortDir = 1;
-let sheetId = '';
-let usingLiveSheet = false;
+let needsActionMode = false, sortCol = null, sortDir = 1;
+let sheetId = '', usingLiveSheet = false, lastSyncedAt = null;
 
 const TODAY = new Date(); TODAY.setHours(0,0,0,0);
 const CY = TODAY.getFullYear();
 
-// ─────────────────────────────────────────────
-//  INIT
-// ─────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
   const s = JSON.parse(localStorage.getItem('clarkson4') || '{}');
   if (s.threshRed)   { threshRed   = s.threshRed;   document.getElementById('threshRed').value   = threshRed; }
   if (s.threshAmber) { threshAmber = s.threshAmber; document.getElementById('threshAmber').value = threshAmber; }
   if (s.sheetId)     { sheetId = s.sheetId; document.getElementById('sheetIdInput').value = sheetId; }
-
   if (sheetId) { loadSheet(); } else { useEmbedded(); }
-
-  // Auto-refresh every 20 minutes if sheet is connected
   setInterval(() => { if (sheetId) loadSheet(); }, 20 * 60 * 1000);
-
-  // Tick the "synced X ago" clock every minute
   setInterval(updateSyncClock, 60 * 1000);
 });
 
@@ -482,32 +456,23 @@ function saveSettings() {
   localStorage.setItem('clarkson4', JSON.stringify({ threshRed, threshAmber, sheetId }));
 }
 
-// ─────────────────────────────────────────────
-//  GOOGLE SHEET LOADING
-// ─────────────────────────────────────────────
 function saveSheetId() {
   const raw = document.getElementById('sheetIdInput').value.trim();
-  // Accept full URL or bare ID
   const match = raw.match(/spreadsheets\/d\/e\/([^/]+)/) || raw.match(/spreadsheets\/d\/([^/]+)/);
   sheetId = match ? match[1] : raw;
   document.getElementById('sheetIdInput').value = sheetId;
-  saveSettings();
-  loadSheet();
+  saveSettings(); loadSheet();
 }
 
 async function loadSheet() {
   if (!sheetId) { useEmbedded(); return; }
-
   setBanner('⟳ Syncing with Google Sheet…', 'info');
   setRefreshSpinner(true);
-
-  // Try both published CSV endpoints — pubhtml uses /e/ ID, edit URL uses plain ID
   const urls = [
     `https://docs.google.com/spreadsheets/d/e/${sheetId}/pub?output=csv&gid=0`,
     `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=Officers`,
     `https://docs.google.com/spreadsheets/d/e/${sheetId}/pub?output=csv`,
   ];
-
   let loaded = false;
   for (const url of urls) {
     try {
@@ -518,37 +483,28 @@ async function loadSheet() {
       if (!rows || rows.length < 2) continue;
       const parsed = csvToOfficers(rows);
       if (!parsed || parsed.length === 0) continue;
-      officers = parsed;
-      loaded = true;
-      usingLiveSheet = true;
+      officers = parsed; loaded = true; usingLiveSheet = true;
       setSheetBar(true, `Live · ${officers.length} officers · Last synced ${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`);
       setBanner(`✓ Synced ${officers.length} officers from Google Sheet`, 'success');
-      setTimeout(() => hideBanner(), 3000);
+      setTimeout(hideBanner, 3000);
       break;
-    } catch(e) { /* try next */ }
+    } catch(e) { /* try next url */ }
   }
-
   if (!loaded) {
     usingLiveSheet = false;
-    setSheetBar(false, `Could not reach Google Sheet — showing embedded data. Check the Sheet ID in ⚙ Settings.`);
+    setSheetBar(false, 'Could not reach Google Sheet — showing embedded data. Check the Sheet ID in ⚙ Settings.');
     setBanner('⚠ Could not load Google Sheet — using embedded data', 'error');
     officers = EMBEDDED_DATA;
   }
-
-  setRefreshSpinner(false);
-  render();
+  setRefreshSpinner(false); render();
 }
 
 function useEmbedded() {
-  officers = EMBEDDED_DATA;
-  usingLiveSheet = false;
+  officers = EMBEDDED_DATA; usingLiveSheet = false;
   setSheetBar(false, `Embedded data — last updated ${EMBEDDED_DATE} — connect a Google Sheet in ⚙ Settings for live data`);
   render();
 }
 
-// ─────────────────────────────────────────────
-//  CSV PARSER — header-name based, order-independent
-// ─────────────────────────────────────────────
 function parseCSV(text) {
   const rows = [];
   for (const line of text.split('\n')) {
@@ -560,76 +516,57 @@ function parseCSV(text) {
       else if (c === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
       else cur += c;
     }
-    cols.push(cur.trim());
-    rows.push(cols);
+    cols.push(cur.trim()); rows.push(cols);
   }
   return rows;
 }
 
-function normalizeHeader(h) {
-  return h.toLowerCase().replace(/[^a-z0-9]/g, '');
-}
+function normalizeHeader(h) { return h.toLowerCase().replace(/[^a-z0-9]/g, ''); }
 
 function csvToOfficers(rows) {
-  // Build a map from normalised header → column index
-  const rawHeaders = rows[0];
   const hIdx = {};
-  rawHeaders.forEach((h, i) => { hIdx[normalizeHeader(h)] = i; });
-
-  // Helper: get value by our internal field key → sheet column name
-  function get(row, fieldKey) {
-    const sheetKey = COL_MAP[fieldKey];
-    if (!sheetKey) return '';
-    const idx = hIdx[sheetKey];
-    return idx !== undefined ? (row[idx] || '').trim() : '';
+  rows[0].forEach((h, i) => { hIdx[normalizeHeader(h)] = i; });
+  function get(row, key) {
+    const sk = COL_MAP[key]; if (!sk) return '';
+    const idx = hIdx[sk]; return idx !== undefined ? (row[idx]||'').trim() : '';
   }
-
-  return rows.slice(1)
-    .filter(r => r.some(c => c.trim()))  // skip blank rows
-    .map(r => ({
-      name:          get(r,'name')         || (r[0]||'').trim(),
-      group:         get(r,'group'),
-      id:            get(r,'id'),
-      licType:       get(r,'lictype'),
-      guardExp:      normalizeDate(get(r,'guardExp')),
-      cprExp:        normalizeDate(get(r,'cprExp')),
-      cprIssuer:     get(r,'cprIssuer'),
-      stb:           normalizeDate(get(r,'stb')),
-      mhfa:          normalizeDate(get(r,'mhfa')),
-      fema100:       normalizeDate(get(r,'fema100')),
-      fema363:       normalizeDate(get(r,'fema363')),
-      sga:           normalizeDate(get(r,'sga')),
-      ocSpray:       get(r,'ocSpray'),
-      handcuffs:     get(r,'handcuffs'),
-      activeShooter: get(r,'activeShooter'),
-      inservice2026: normalizeDate(get(r,'inservice2026')),
-      inservice2025: normalizeDate(get(r,'inservice2025')),
-      inservice2024: normalizeDate(get(r,'inservice2024')),
-      preAssignment: normalizeDate(get(r,'preAssignment')),
-      ojt16hr:       normalizeDate(get(r,'ojt16hr')),
-      notes:         get(r,'notes'),
-    }))
-    .filter(o => o.name); // require at least a name
+  return rows.slice(1).filter(r => r.some(c => c.trim())).map(r => ({
+    name:          get(r,'name') || (r[0]||'').trim(),
+    group:         get(r,'group'),
+    id:            get(r,'id'),
+    licType:       get(r,'lictype'),
+    guardExp:      nd(get(r,'guardExp')),
+    cprExp:        nd(get(r,'cprExp')),
+    cprIssuer:     get(r,'cprIssuer'),
+    stb:           nd(get(r,'stb')),
+    mhfa:          nd(get(r,'mhfa')),
+    fema100:       nd(get(r,'fema100')),
+    fema363:       nd(get(r,'fema363')),
+    sga:           nd(get(r,'sga')),
+    ocSpray:       get(r,'ocSpray'),
+    handcuffs:     get(r,'handcuffs'),
+    activeShooter: get(r,'activeShooter'),
+    extraIcs:      get(r,'extraIcs'),
+    inservice2026: nd(get(r,'inservice2026')),
+    inservice2025: nd(get(r,'inservice2025')),
+    inservice2024: nd(get(r,'inservice2024')),
+    preAssignment: nd(get(r,'preAssignment')),
+    ojt16hr:       nd(get(r,'ojt16hr')),
+    notes:         get(r,'notes'),
+  })).filter(o => o.name);
 }
 
-// Converts various date formats to YYYY-MM-DD for consistent parsing
-function normalizeDate(v) {
+function nd(v) {  // normalizeDate
   if (!v) return '';
   v = v.trim();
-  // Already ISO
   if (/^\d{4}-\d{2}-\d{2}/.test(v)) return v.substring(0,10);
-  // MM/DD/YYYY or M/D/YYYY
   const m = v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
   if (m) return `${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
-  // MM/DD/YY
   const m2 = v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2})$/);
-  if (m2) { const yr = parseInt(m2[3]) < 50 ? '20'+m2[3] : '19'+m2[3]; return `${yr}-${m2[1].padStart(2,'0')}-${m2[2].padStart(2,'0')}`; }
-  return v; // return as-is, best effort
+  if (m2) { const yr = parseInt(m2[3])<50?'20'+m2[3]:'19'+m2[3]; return `${yr}-${m2[1].padStart(2,'0')}-${m2[2].padStart(2,'0')}`; }
+  return v;
 }
 
-// ─────────────────────────────────────────────
-//  DATE / STATUS UTILS
-// ─────────────────────────────────────────────
 function daysUntil(ds) { return ds ? Math.ceil((new Date(ds) - TODAY) / 86400000) : null; }
 function certCode(ds) {
   const d = daysUntil(ds);
@@ -651,27 +588,21 @@ function fmtLeft(ds) {
   if(yr>0&&rm>0) return `${yr}yr ${rm}mo`; if(yr>0) return `${yr}yr`; return `${rm}mo`;
 }
 
-// ─────────────────────────────────────────────
-//  NYS COMPLIANCE LOGIC
-// ─────────────────────────────────────────────
 function annualStatus(o, year) {
   if (!o.guardExp && !o.preAssignment) return 'na';
-  const f = YEAR_FIELDS[year];
-  if (!f) return 'na';
+  const f = YEAR_FIELDS[year]; if (!f) return 'na';
   if (o.guardExp && new Date(o.guardExp) < new Date(`${year}-01-01`)) return 'na';
   if (o.preAssignment && new Date(o.preAssignment) > new Date(`${year}-12-31`)) return 'na';
   if (o[f]) return 'done';
   if (year < CY) return 'norecord';
   return 'due';
 }
-function ojtStatus(o)  { if(!o.ojt16hr) return (o.preAssignment||o.guardExp)?'missing':'na'; return 'done'; }
-function preStatus(o)  { if(!o.preAssignment) return (o.guardExp||o.id)?'missing':'na'; return 'done'; }
+function ojtStatus(o)  { return o.ojt16hr ? 'done' : (o.preAssignment||o.guardExp) ? 'missing' : 'na'; }
+function preStatus(o)  { return o.preAssignment ? 'done' : (o.guardExp||o.id) ? 'missing' : 'na'; }
 
 function rowColor(o) {
   const g = certCode(o.guardExp);
-  // No license AND no pre-assignment AND no ID — genuinely unknown record, treat as red
   if (!o.guardExp && !o.preAssignment && !o.id) return 'red';
-  // Has some record context but no license date — gray (incomplete, not necessarily non-compliant)
   if (!o.guardExp && !o.preAssignment) return 'gray';
   if (g === 'red') return 'red';
   if (ojtStatus(o)==='missing' || preStatus(o)==='missing') return 'red';
@@ -680,10 +611,43 @@ function rowColor(o) {
   return 'green';
 }
 
-// Sort key for "annual" column: done=0, due=1, norecord=2, na=3
 function annualSortKey(o) {
-  const s = annualStatus(o, CY);
-  return {done:0,due:1,norecord:2,na:3}[s] ?? 2;
+  return {done:0,due:1,norecord:2,na:3}[annualStatus(o,CY)] ?? 2;
+}
+
+// ─────────────────────────────────────────────
+//  BUILD ISSUES LIST
+//  Returns array of {text, severity} for an officer.
+//  severity: 'hard' (red) | 'soft' (amber) | 'info' (blue)
+// ─────────────────────────────────────────────
+function getIssues(o) {
+  const issues = [];
+  const g = certCode(o.guardExp);
+
+  // No record at all
+  if (!o.guardExp && !o.preAssignment && !o.id) {
+    issues.push({ text:'No record on file', severity:'hard' });
+    return issues;
+  }
+
+  // License
+  if (!o.guardExp) {
+    issues.push({ text:'License expiry missing', severity:'hard' });
+  } else if (daysUntil(o.guardExp) <= 0) {
+    issues.push({ text:'License expired', severity:'hard' });
+  } else if (g === 'red') {
+    issues.push({ text:`License exp. ${fmtDate(o.guardExp,{month:'short',day:'numeric'})}`, severity:'hard' });
+  } else if (g === 'amber') {
+    issues.push({ text:`License exp. ${fmtDate(o.guardExp,{month:'short',day:'numeric'})}`, severity:'soft' });
+  }
+
+  // OJT
+  if (ojtStatus(o) === 'missing') issues.push({ text:'OJT 16-hr missing', severity:'hard' });
+
+  // Pre-assignment
+  if (preStatus(o) === 'missing') issues.push({ text:'Pre-assignment missing', severity:'hard' });
+
+  return issues;
 }
 
 // ─────────────────────────────────────────────
@@ -691,18 +655,15 @@ function annualSortKey(o) {
 // ─────────────────────────────────────────────
 function sortBy(th) {
   const col = th.dataset.sort;
-  if (sortCol === col) { sortDir *= -1; }
-  else { sortCol = col; sortDir = 1; }
-
-  // Update header indicators
+  sortDir = (sortCol === col) ? sortDir * -1 : 1;
+  sortCol = col;
   document.querySelectorAll('thead th').forEach(t => t.classList.remove('sort-asc','sort-desc'));
   th.classList.add(sortDir === 1 ? 'sort-asc' : 'sort-desc');
-
   officers.sort((a, b) => {
     let av, bv;
-    if (col === 'name')     { av = a.name.toLowerCase(); bv = b.name.toLowerCase(); }
-    if (col === 'guardExp') { av = a.guardExp||'9999'; bv = b.guardExp||'9999'; }
-    if (col === 'annual')   { av = annualSortKey(a); bv = annualSortKey(b); }
+    if (col==='name')     { av=a.name.toLowerCase();  bv=b.name.toLowerCase(); }
+    if (col==='guardExp') { av=a.guardExp||'9999';     bv=b.guardExp||'9999'; }
+    if (col==='annual')   { av=annualSortKey(a);       bv=annualSortKey(b); }
     if (av < bv) return -1 * sortDir;
     if (av > bv) return  1 * sortDir;
     return 0;
@@ -716,14 +677,15 @@ function sortBy(th) {
 function render() {
   const tbody = document.getElementById('tableBody');
   tbody.innerHTML = '';
-
   officers.forEach(o => {
-    const color = rowColor(o);
-    const gCode = certCode(o.guardExp);
-    const a26   = annualStatus(o, CY);
-    const a25   = annualStatus(o, CY-1);
-    const a24   = annualStatus(o, CY-2);
+    const color  = rowColor(o);
+    const gCode  = certCode(o.guardExp);
+    const a26    = annualStatus(o, CY);
+    const a25    = annualStatus(o, CY-1);
+    const a24    = annualStatus(o, CY-2);
     const stripe = {red:'var(--red)',amber:'var(--amber)',blue:'var(--blue)',green:'var(--green)'}[color]||'var(--text-dim)';
+    const role   = getRole(o.name);
+    const issues = getIssues(o);
 
     const tr = document.createElement('tr');
     tr.dataset.group  = o.group;
@@ -731,22 +693,21 @@ function render() {
     tr.dataset.name   = o.name.toLowerCase();
     tr.style.cssText  = `cursor:pointer;border-left:3px solid ${stripe}`;
     tr.onclick = () => openModal(o);
-    const role = getRole(o.name);
     tr.innerHTML = `
       <td>
-        <div class="officer-name">${o.name}${o.notes?'<span class="notes-dot" title="Has notes"></span>':''}</div>
+        <div class="officer-name">${o.name}</div>
         <div class="officer-id">${o.id||'<span style="color:#686868">No ID</span>'}</div>
         <span class="group-pill">${o.group==='Full Time'?'FT':'Per Diem'}</span><span class="role-pill ${role.cls}">${role.label}</span>
       </td>
       <td class="lic-cell">${licCell(o,gCode)}</td>
       <td class="nys-cell">${annualCell(o,a26,a25,a24)}</td>
+      <td class="issues-cell hide-sm">${issuesCell(issues)}</td>
+      <td class="cpr-cell hide-sm">${cprCell(o)}</td>
       <td class="certs-cell hide-sm">${certsCell(o)}</td>
     `;
     tbody.appendChild(tr);
   });
-
-  updateStats();
-  applyFilters();
+  updateStats(); applyFilters();
 }
 
 function licCell(o, code) {
@@ -766,23 +727,34 @@ function annualCell(o, a26, a25, a24) {
   else if (a26==='done')    badge = `<span class="annual-badge done">${CY} ✓ ${fmtDate(o[curField],{month:'short',day:'numeric'})}</span>`;
   else if (a26==='due')     badge = `<span class="annual-badge pending">${CY} — Due by Dec 31</span>`;
   else if (a26==='overdue') badge = `<span class="annual-badge overdue">${CY} Overdue</span>`;
-
-  function pill(yr, st, field) {
+  function pill(yr,st,field) {
     if (st==='done') return `<span class="yr-pill done">${yr} ✓ ${fmtDate(o[field],{month:'short'})}</span>`;
-    if (st==='na' || st==='norecord') return `<span class="yr-pill na">${yr} —</span>`;
-    return `<span class="yr-pill na">${yr}</span>`;
+    return `<span class="yr-pill na">${yr} —</span>`;
   }
   return `${badge}<div class="prior-years">${pill(CY-1,a25,YEAR_FIELDS[CY-1])}${pill(CY-2,a24,YEAR_FIELDS[CY-2])}</div>`;
 }
 
+function issuesCell(issues) {
+  if (!issues.length) return `<span class="no-issues">—</span>`;
+  return issues.map(i => `<span class="issue-tag ${i.severity}">${i.text}</span>`).join('');
+}
+
+function cprCell(o) {
+  const code = certCode(o.cprExp);
+  if (!o.cprExp) {
+    return `<span class="cpr-date red">No record</span>
+            <div class="cpr-remaining red">CPR not on file</div>`;
+  }
+  const date    = fmtDate(o.cprExp, {month:'short', day:'numeric', year:'numeric'});
+  const left    = fmtLeft(o.cprExp);
+  const expired = daysUntil(o.cprExp) <= 0;
+  return `<span class="cpr-date ${code}">${date}</span>
+          <div class="cpr-remaining ${code}">${expired ? '⚠ ' : ''}${left}</div>
+          ${o.cprIssuer ? `<div class="cpr-issuer">${o.cprIssuer}</div>` : ''}`;
+}
+
 function certsCell(o) {
   const t = [];
-  if (o.cprExp) {
-    const c=certCode(o.cprExp), d=fmtDate(o.cprExp,{month:'short',year:'numeric'});
-    t.push(`<span class="ctag ${c==='green'?'cpr-ok':c==='amber'?'cpr-warn':'cpr-exp'}">CPR ${d}</span>`);
-  } else {
-    t.push(`<span class="ctag cpr-none">CPR — none</span>`);
-  }
   if(o.stb)    t.push(`<span class="ctag onetime">Stop the Bleed</span>`);
   if(o.mhfa)   t.push(`<span class="ctag onetime">MHFA</span>`);
   if(o.fema100)t.push(`<span class="ctag onetime">ICS-100</span>`);
@@ -790,13 +762,10 @@ function certsCell(o) {
   if(o.sga)    t.push(`<span class="ctag onetime">SGA</span>`);
   if(o.ocSpray)   t.push(`<span class="ctag extra">OC Spray</span>`);
   if(o.handcuffs) t.push(`<span class="ctag extra">Handcuffs</span>`);
-  if(o.notes){ const m=o.notes.match(/ICS-\d+/g); if(m) m.forEach(i=>{ if(!t.join().includes(i)) t.push(`<span class="ctag extra">${i}</span>`); }); }
+  if(o.notes) { const m=o.notes.match(/ICS-\d+/g); if(m) m.forEach(i=>{ if(!t.join().includes(i)) t.push(`<span class="ctag extra">${i}</span>`); }); }
   return t.length ? t.join('') : `<span class="no-rec">—</span>`;
 }
 
-// ─────────────────────────────────────────────
-//  STATS
-// ─────────────────────────────────────────────
 function updateStats() {
   let total=0,issues=0,expiring=0,ontrack=0,compliant=0;
   document.querySelectorAll('#tableBody tr').forEach(r=>{
@@ -807,170 +776,119 @@ function updateStats() {
     if(s==='blue')  ontrack++;
     if(s==='green') compliant++;
   });
-  document.getElementById('statTotal').textContent    = total;
-  document.getElementById('statNysIssues').textContent= issues;
-  document.getElementById('statExpiring').textContent = expiring;
-  document.getElementById('statOnTrack').textContent  = ontrack;
+  document.getElementById('statTotal').textContent     = total;
+  document.getElementById('statNysIssues').textContent = issues;
+  document.getElementById('statExpiring').textContent  = expiring;
+  document.getElementById('statOnTrack').textContent   = ontrack;
   document.getElementById('statOnTrackLabel').textContent = `On Track — ${CY} Training Due`;
-  document.getElementById('statCompliant').textContent= compliant;
+  document.getElementById('statCompliant').textContent = compliant;
 }
 
-// ─────────────────────────────────────────────
-//  FILTERS
-// ─────────────────────────────────────────────
 function setGroupFilter(btn) {
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  groupFilter = btn.dataset.group;
-  applyFilters();
+  btn.classList.add('active'); groupFilter=btn.dataset.group; applyFilters();
 }
-
 function toggleStatusFilter(btn) {
-  const s = btn.dataset.status;
-  if(activeStatuses.has(s)){ activeStatuses.delete(s); btn.classList.remove('active'); }
-  else { activeStatuses.add(s); btn.classList.add('active'); }
-  // If user manually tweaks filters, exit needs-action mode silently
-  needsActionMode = false;
-  document.getElementById('actionBtn').classList.remove('active');
+  const s=btn.dataset.status;
+  if(activeStatuses.has(s)){activeStatuses.delete(s);btn.classList.remove('active');}
+  else{activeStatuses.add(s);btn.classList.add('active');}
+  needsActionMode=false; document.getElementById('actionBtn').classList.remove('active');
   applyFilters();
 }
-
-function toggleNeedsAction() {
-  setNeedsAction(!needsActionMode);
-}
-
+function toggleNeedsAction() { setNeedsAction(!needsActionMode); }
 function setNeedsAction(on) {
-  needsActionMode = on;
-  const btn = document.getElementById('actionBtn');
-  btn.classList.toggle('active', on);
-
-  if (on) {
-    // Activate only red + amber, deactivate others
-    activeStatuses = new Set(['red','amber']);
-    document.querySelectorAll('.status-badge-btn').forEach(b => {
-      b.classList.toggle('active', b.dataset.status==='red' || b.dataset.status==='amber');
-    });
+  needsActionMode=on;
+  document.getElementById('actionBtn').classList.toggle('active',on);
+  if(on){
+    activeStatuses=new Set(['red','amber']);
+    document.querySelectorAll('.status-badge-btn').forEach(b=>b.classList.toggle('active',b.dataset.status==='red'||b.dataset.status==='amber'));
   } else {
-    // Restore all
-    activeStatuses = new Set(['red','amber','blue','green','gray']);
-    document.querySelectorAll('.status-badge-btn').forEach(b => b.classList.add('active'));
+    activeStatuses=new Set(['red','amber','blue','green','gray']);
+    document.querySelectorAll('.status-badge-btn').forEach(b=>b.classList.add('active'));
   }
   applyFilters();
 }
-
 function applyFilters() {
-  const q = document.getElementById('searchInput').value.toLowerCase();
-  let v = 0;
-  document.querySelectorAll('#tableBody tr').forEach(r => {
-    const ok = (groupFilter==='all'||r.dataset.group===groupFilter)
-            && activeStatuses.has(r.dataset.status)
-            && (!q||r.dataset.name.includes(q));
-    r.classList.toggle('hidden', !ok);
-    if(ok) v++;
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  let v=0;
+  document.querySelectorAll('#tableBody tr').forEach(r=>{
+    const ok=(groupFilter==='all'||r.dataset.group===groupFilter)&&activeStatuses.has(r.dataset.status)&&(!q||r.dataset.name.includes(q));
+    r.classList.toggle('hidden',!ok); if(ok)v++;
   });
-  const label = needsActionMode
-    ? `${v} officer${v!==1?'s':''} need action`
-    : `${v} officer${v!==1?'s':''}`;
-  document.getElementById('officer-count').textContent = label;
+  document.getElementById('officer-count').textContent=needsActionMode?`${v} officer${v!==1?'s':''} need action`:`${v} officer${v!==1?'s':''}`;
 }
 
-// ─────────────────────────────────────────────
-//  SETTINGS / THRESHOLDS
-// ─────────────────────────────────────────────
 function toggleSettings() { document.getElementById('configBar').classList.toggle('open'); }
-
 function applyThresholds() {
   const r=parseInt(document.getElementById('threshRed').value)||30;
   const a=parseInt(document.getElementById('threshAmber').value)||90;
-  if(r>=a){ alert('Red threshold must be less than amber.'); return; }
-  threshRed=r; threshAmber=a;
-  saveSettings(); render();
+  if(r>=a){alert('Red threshold must be less than amber.');return;}
+  threshRed=r;threshAmber=a;saveSettings();render();
   setBanner(`✓ Thresholds updated — Red: ${r}d · Amber: ${a}d`,'success');
-  setTimeout(hideBanner, 2500);
+  setTimeout(hideBanner,2500);
 }
 
-// ─────────────────────────────────────────────
-//  UI HELPERS
-// ─────────────────────────────────────────────
-function setBanner(msg, type='info') {
-  const b = document.getElementById('load-banner');
-  b.style.display='block'; b.className=type; b.textContent=msg;
+function setBanner(msg,type='info'){const b=document.getElementById('load-banner');b.style.display='block';b.className=type;b.textContent=msg;}
+function hideBanner(){document.getElementById('load-banner').style.display='none';}
+function updateSyncClock(){
+  if(!lastSyncedAt||!usingLiveSheet)return;
+  const mins=Math.floor((Date.now()-lastSyncedAt)/60000);
+  const ago=mins<1?'just now':mins===1?'1 min ago':mins<60?`${mins} min ago`:`${Math.floor(mins/60)}h ago`;
+  document.getElementById('sheetBarText').textContent=`Live · ${officers.length} officers · Synced ${ago}`;
 }
-function hideBanner() { document.getElementById('load-banner').style.display='none'; }
-
-let lastSyncedAt = null;
-
-function updateSyncClock() {
-  if (!lastSyncedAt || !usingLiveSheet) return;
-  const mins = Math.floor((Date.now() - lastSyncedAt) / 60000);
-  const ago = mins < 1 ? 'just now' : mins === 1 ? '1 min ago' : mins < 60 ? `${mins} min ago` : `${Math.floor(mins/60)}h ago`;
-  document.getElementById('sheetBarText').textContent = `Live · ${officers.length} officers · Synced ${ago}`;
+function setSheetBar(live,msg){
+  document.getElementById('sheetDot').className=live?'dot-live':'dot-offline';
+  document.getElementById('sheetBarText').textContent=msg;
+  if(live)lastSyncedAt=Date.now();
 }
+function setRefreshSpinner(on){document.getElementById('refreshBtn').classList.toggle('spinning',on);}
 
-function setSheetBar(live, msg) {
-  document.getElementById('sheetDot').className = live ? 'dot-live' : 'dot-offline';
-  document.getElementById('sheetBarText').textContent = msg;
-  if (live) lastSyncedAt = Date.now();
-}
-
-function setRefreshSpinner(on) {
-  document.getElementById('refreshBtn').classList.toggle('spinning', on);
-}
-
-// ─────────────────────────────────────────────
-//  MODAL
-// ─────────────────────────────────────────────
 function openModal(o) {
-  const role = getRole(o.name);
-  document.getElementById('modalName').textContent = o.name;
-  document.getElementById('modalSub').textContent  =
-    `${role.full}  ·  ${o.group}  ·  ${o.licType||'License type not recorded'}  ·  ID: ${o.id||'N/A'}`;
-
-  const gCode=certCode(o.guardExp), cCode=certCode(o.cprExp);
-  const a24=annualStatus(o,CY-2), a25=annualStatus(o,CY-1), a26=annualStatus(o,CY);
-
-  function row(label,val){ return `<div class="comp-row"><span class="comp-label">${label}</span>${val}</div>`; }
-
-  function licRow() {
-    if(!o.guardExp) return row('NYS License Expiry',`<span class="comp-val fail">✗ No record on file</span>`);
+  const role=getRole(o.name);
+  document.getElementById('modalName').textContent=o.name;
+  document.getElementById('modalSub').textContent=`${role.full}  ·  ${o.group}  ·  ${o.licType||'License type not recorded'}  ·  ID: ${o.id||'N/A'}`;
+  const gCode=certCode(o.guardExp),cCode=certCode(o.cprExp);
+  const a24=annualStatus(o,CY-2),a25=annualStatus(o,CY-1),a26=annualStatus(o,CY);
+  function row(label,val){return `<div class="comp-row"><span class="comp-label">${label}</span>${val}</div>`;}
+  function licRow(){
+    if(!o.guardExp)return row('NYS License Expiry',`<span class="comp-val fail">✗ No record on file</span>`);
     const d=fmtDate(o.guardExp,{month:'long',day:'numeric',year:'numeric'});
-    const tl=fmtLeft(o.guardExp); const exp=daysUntil(o.guardExp)<=0;
+    const tl=fmtLeft(o.guardExp);const exp=daysUntil(o.guardExp)<=0;
     const cls=gCode==='green'?'ok':gCode==='amber'?'warn':'fail';
     return row('NYS License Expiry',`<span class="comp-val ${cls}">${exp?'✗ EXPIRED ':'✓ '}${d}${tl?' — '+tl:''}</span>`);
   }
-  function preRow() {
+  function preRow(){
     const s=preStatus(o);
-    if(s==='na')   return row('8-hr Pre-Assignment',`<span class="comp-val na">Not required</span>`);
-    if(s==='done') return row('8-hr Pre-Assignment',`<span class="comp-val ok">✓ ${fmtDate(o.preAssignment)}</span>`);
+    if(s==='na')  return row('8-hr Pre-Assignment',`<span class="comp-val na">Not required</span>`);
+    if(s==='done')return row('8-hr Pre-Assignment',`<span class="comp-val ok">✓ ${fmtDate(o.preAssignment)}</span>`);
     return row('8-hr Pre-Assignment',`<span class="comp-val fail">✗ Missing — required before employment</span>`);
   }
-  function ojtRow() {
+  function ojtRow(){
     const s=ojtStatus(o);
-    if(s==='na')   return row('16-hr OJT',`<span class="comp-val na">Not required</span>`);
-    if(s==='done') return row('16-hr OJT',`<span class="comp-val ok">✓ ${fmtDate(o.ojt16hr)}</span>`);
+    if(s==='na')  return row('16-hr OJT',`<span class="comp-val na">Not required</span>`);
+    if(s==='done')return row('16-hr OJT',`<span class="comp-val ok">✓ ${fmtDate(o.ojt16hr)}</span>`);
     return row('16-hr OJT',`<span class="comp-val fail">✗ Missing — req. within 90 days of hire</span>`);
   }
-  function annRow(yr,st,field) {
+  function annRow(yr,st,field){
     let val;
-    if(st==='na')            val=`<span class="comp-val na">Not required</span>`;
+    if(st==='na')       val=`<span class="comp-val na">Not required</span>`;
     else if(st==='done')     val=`<span class="comp-val ok">✓ ${fmtDate(o[field])}</span>`;
     else if(st==='due')      val=`<span class="comp-val warn">Due by Dec 31, ${yr}</span>`;
     else if(st==='norecord') val=`<span class="comp-val na">No record on file</span>`;
     else val=`<span class="comp-val na">—</span>`;
-    return row(`8-hr In-Service ${yr}`, val);
+    return row(`8-hr In-Service ${yr}`,val);
   }
-  function detRow(label,ds,code,sub) {
-    if(!ds) return `<div class="detail-item"><div class="dl">${label}</div><div class="dv" style="color:#686868">—</div></div>`;
+  function detRow(label,ds,code,sub){
+    if(!ds)return `<div class="detail-item"><div class="dl">${label}</div><div class="dv" style="color:#686868">—</div></div>`;
     const color=code==='red'?'var(--red)':code==='amber'?'var(--amber)':code==='green'?'var(--green)':'var(--text-muted)';
     const tl=fmtLeft(ds);
     return `<div class="detail-item"><div class="dl">${label}</div><div class="dv" style="color:${color}">${fmtDate(ds)}${tl?' — '+tl:''}</div>${sub?`<div class="dl" style="margin-top:2px">${sub}</div>`:''}</div>`;
   }
-  function recRow(label,val) {
-    if(!val) return `<div class="detail-item"><div class="dl">${label}</div><div class="dv" style="color:#686868">—</div></div>`;
+  function recRow(label,val){
+    if(!val)return `<div class="detail-item"><div class="dl">${label}</div><div class="dv" style="color:#686868">—</div></div>`;
     const d=val.match(/^\d{4}-\d{2}/)?fmtDate(val):val;
     return `<div class="detail-item"><div class="dl">${label}</div><div class="dv" style="color:var(--teal)">${d}</div></div>`;
   }
-
   document.getElementById('modalBody').innerHTML=`
     <div class="nys-compliance-box">
       <div class="box-title">NYS GBL §89-n Compliance</div>
@@ -990,14 +908,15 @@ function openModal(o) {
         ${recRow('Stop the Bleed',o.stb)}${recRow('Mental Health First Aid',o.mhfa)}
         ${recRow('FEMA ICS-100',o.fema100)}${recRow('FEMA ICS-363',o.fema363)}
         ${recRow('SGA',o.sga)}${recRow('OC Spray',o.ocSpray)}${recRow('Handcuffs',o.handcuffs)}
+        ${o.extraIcs?recRow('Extra ICS',o.extraIcs):''}
       </div>
     </div>
     ${o.notes?`<div class="modal-section"><h4>Notes</h4><p style="font-size:11px;color:var(--text-muted);line-height:1.6">${o.notes}</p></div>`:''}
   `;
   document.getElementById('modalOverlay').classList.add('open');
 }
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 </script>
 </body>
 </html>
