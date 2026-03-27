@@ -141,6 +141,13 @@
   .officer-name { font-size: 13px; font-weight: 500; }
   .officer-id   { font-family: var(--mono); font-size: 9.5px; color: #888888; margin-top: 1px; }
   .group-pill { display: inline-block; font-size: 9px; font-family: var(--mono); padding: 1px 5px; border-radius: 3px; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.05em; background: rgba(255,255,255,0.05); color: #888888; border: 1px solid rgba(255,255,255,0.10); }
+  .role-pill { display: inline-block; font-size: 9px; font-family: var(--mono); padding: 1px 5px; border-radius: 3px; margin-top: 2px; margin-left: 3px; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+  .role-pill.dir     { background: rgba(96,170,255,0.12); color: #60aaff;  border: 1px solid rgba(96,170,255,0.25); }
+  .role-pill.asst    { background: rgba(96,170,255,0.07); color: #90c4ff;  border: 1px solid rgba(96,170,255,0.18); }
+  .role-pill.lt      { background: rgba(183,148,246,0.12); color: #b794f6; border: 1px solid rgba(183,148,246,0.25); }
+  .role-pill.sgt     { background: rgba(45,212,191,0.10); color: #2dd4bf;  border: 1px solid rgba(45,212,191,0.22); }
+  .role-pill.officer { background: rgba(255,255,255,0.05); color: #888888; border: 1px solid rgba(255,255,255,0.10); }
+  .notes-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--amber); margin-left: 5px; vertical-align: middle; flex-shrink: 0; }
 
   /* LICENSE CELL */
   .lic-cell { min-width: 155px; }
@@ -274,7 +281,7 @@
   <div class="stat-card"><div class="stat-num" id="statTotal">—</div><div class="stat-label">Total Officers</div></div>
   <div class="stat-card red clickable" onclick="setNeedsAction(true)" title="Show officers needing action"><div class="stat-num" id="statNysIssues">—</div><div class="stat-label">Compliance Issues</div></div>
   <div class="stat-card amber clickable" onclick="setNeedsAction(true)" title="Show officers needing action"><div class="stat-num" id="statExpiring">—</div><div class="stat-label">License Expiring Soon</div></div>
-  <div class="stat-card blue"><div class="stat-num" id="statOnTrack">—</div><div class="stat-label">On Track — 2026 Training Due</div></div>
+  <div class="stat-card blue"><div class="stat-num" id="statOnTrack">—</div><div class="stat-label" id="statOnTrackLabel">On Track — Training Due</div></div>
   <div class="stat-card green"><div class="stat-num" id="statCompliant">—</div><div class="stat-label">Fully Compliant</div></div>
 </div>
 
@@ -405,6 +412,40 @@ const COL_MAP = {
 };
 
 // ─────────────────────────────────────────────
+//  ROLE MAP  (keyed by lowercase last name)
+// ─────────────────────────────────────────────
+const ROLES = {
+  'hissong':  { label: 'Dir',      cls: 'dir',     full: 'Director' },
+  'huckle':   { label: 'Asst Dir', cls: 'asst',    full: 'Asst. Director' },
+  'wentworth':{ label: 'Lt',       cls: 'lt',       full: 'Lieutenant' },
+  'volz':     { label: 'Sgt',      cls: 'sgt',      full: 'Sergeant' },
+  'darabon':  { label: 'Sgt',      cls: 'sgt',      full: 'Sergeant' },
+};
+const DEFAULT_ROLE = { label: 'Officer', cls: 'officer', full: 'Officer' };
+
+function getRole(name) {
+  if (!name) return DEFAULT_ROLE;
+  const last = name.trim().split(/\s+/).pop().toLowerCase();
+  return ROLES[last] || DEFAULT_ROLE;
+}
+
+// ─────────────────────────────────────────────
+//  DYNAMIC YEAR FIELD MAP
+//  Maps calendar year → officer data field name.
+//  Add a new entry each January alongside the new sheet column.
+// ─────────────────────────────────────────────
+const YEAR_FIELDS = {
+  2024: 'inservice2024',
+  2025: 'inservice2025',
+  2026: 'inservice2026',
+};
+
+// ─────────────────────────────────────────────
+//  EMBEDDED DATA LAST UPDATED (update this when re-baking embedded data)
+// ─────────────────────────────────────────────
+const EMBEDDED_DATE = 'Mar 26, 2026';
+
+// ─────────────────────────────────────────────
 //  STATE
 // ─────────────────────────────────────────────
 let officers = [];
@@ -429,6 +470,12 @@ window.addEventListener('DOMContentLoaded', () => {
   if (s.sheetId)     { sheetId = s.sheetId; document.getElementById('sheetIdInput').value = sheetId; }
 
   if (sheetId) { loadSheet(); } else { useEmbedded(); }
+
+  // Auto-refresh every 20 minutes if sheet is connected
+  setInterval(() => { if (sheetId) loadSheet(); }, 20 * 60 * 1000);
+
+  // Tick the "synced X ago" clock every minute
+  setInterval(updateSyncClock, 60 * 1000);
 });
 
 function saveSettings() {
@@ -495,7 +542,7 @@ async function loadSheet() {
 function useEmbedded() {
   officers = EMBEDDED_DATA;
   usingLiveSheet = false;
-  setSheetBar(false, 'Using embedded data — connect a Google Sheet in ⚙ Settings to sync live data');
+  setSheetBar(false, `Embedded data — last updated ${EMBEDDED_DATE} — connect a Google Sheet in ⚙ Settings for live data`);
   render();
 }
 
@@ -609,7 +656,7 @@ function fmtLeft(ds) {
 // ─────────────────────────────────────────────
 function annualStatus(o, year) {
   if (!o.guardExp && !o.preAssignment) return 'na';
-  const f = {2024:'inservice2024',2025:'inservice2025',2026:'inservice2026'}[year];
+  const f = YEAR_FIELDS[year];
   if (!f) return 'na';
   if (o.guardExp && new Date(o.guardExp) < new Date(`${year}-01-01`)) return 'na';
   if (o.preAssignment && new Date(o.preAssignment) > new Date(`${year}-12-31`)) return 'na';
@@ -622,6 +669,9 @@ function preStatus(o)  { if(!o.preAssignment) return (o.guardExp||o.id)?'missing
 
 function rowColor(o) {
   const g = certCode(o.guardExp);
+  // No license AND no pre-assignment AND no ID — genuinely unknown record, treat as red
+  if (!o.guardExp && !o.preAssignment && !o.id) return 'red';
+  // Has some record context but no license date — gray (incomplete, not necessarily non-compliant)
   if (!o.guardExp && !o.preAssignment) return 'gray';
   if (g === 'red') return 'red';
   if (ojtStatus(o)==='missing' || preStatus(o)==='missing') return 'red';
@@ -681,11 +731,12 @@ function render() {
     tr.dataset.name   = o.name.toLowerCase();
     tr.style.cssText  = `cursor:pointer;border-left:3px solid ${stripe}`;
     tr.onclick = () => openModal(o);
+    const role = getRole(o.name);
     tr.innerHTML = `
       <td>
-        <div class="officer-name">${o.name}</div>
+        <div class="officer-name">${o.name}${o.notes?'<span class="notes-dot" title="Has notes"></span>':''}</div>
         <div class="officer-id">${o.id||'<span style="color:#686868">No ID</span>'}</div>
-        <span class="group-pill">${o.group==='Full Time'?'FT':'Per Diem'}</span>
+        <span class="group-pill">${o.group==='Full Time'?'FT':'Per Diem'}</span><span class="role-pill ${role.cls}">${role.label}</span>
       </td>
       <td class="lic-cell">${licCell(o,gCode)}</td>
       <td class="nys-cell">${annualCell(o,a26,a25,a24)}</td>
@@ -709,18 +760,19 @@ function licCell(o, code) {
 }
 
 function annualCell(o, a26, a25, a24) {
+  const curField = YEAR_FIELDS[CY];
   let badge = '';
   if      (a26==='na')      badge = `<span class="annual-badge na">N/A</span>`;
-  else if (a26==='done')    badge = `<span class="annual-badge done">2026 ✓ ${fmtDate(o.inservice2026,{month:'short',day:'numeric'})}</span>`;
-  else if (a26==='due')     badge = `<span class="annual-badge pending">2026 — Due by Dec 31</span>`;
-  else if (a26==='overdue') badge = `<span class="annual-badge overdue">2026 Overdue</span>`;
+  else if (a26==='done')    badge = `<span class="annual-badge done">${CY} ✓ ${fmtDate(o[curField],{month:'short',day:'numeric'})}</span>`;
+  else if (a26==='due')     badge = `<span class="annual-badge pending">${CY} — Due by Dec 31</span>`;
+  else if (a26==='overdue') badge = `<span class="annual-badge overdue">${CY} Overdue</span>`;
 
   function pill(yr, st, field) {
     if (st==='done') return `<span class="yr-pill done">${yr} ✓ ${fmtDate(o[field],{month:'short'})}</span>`;
     if (st==='na' || st==='norecord') return `<span class="yr-pill na">${yr} —</span>`;
     return `<span class="yr-pill na">${yr}</span>`;
   }
-  return `${badge}<div class="prior-years">${pill(CY-1,a25,'inservice2025')}${pill(CY-2,a24,'inservice2024')}</div>`;
+  return `${badge}<div class="prior-years">${pill(CY-1,a25,YEAR_FIELDS[CY-1])}${pill(CY-2,a24,YEAR_FIELDS[CY-2])}</div>`;
 }
 
 function certsCell(o) {
@@ -759,6 +811,7 @@ function updateStats() {
   document.getElementById('statNysIssues').textContent= issues;
   document.getElementById('statExpiring').textContent = expiring;
   document.getElementById('statOnTrack').textContent  = ontrack;
+  document.getElementById('statOnTrackLabel').textContent = `On Track — ${CY} Training Due`;
   document.getElementById('statCompliant').textContent= compliant;
 }
 
@@ -845,9 +898,19 @@ function setBanner(msg, type='info') {
 }
 function hideBanner() { document.getElementById('load-banner').style.display='none'; }
 
+let lastSyncedAt = null;
+
+function updateSyncClock() {
+  if (!lastSyncedAt || !usingLiveSheet) return;
+  const mins = Math.floor((Date.now() - lastSyncedAt) / 60000);
+  const ago = mins < 1 ? 'just now' : mins === 1 ? '1 min ago' : mins < 60 ? `${mins} min ago` : `${Math.floor(mins/60)}h ago`;
+  document.getElementById('sheetBarText').textContent = `Live · ${officers.length} officers · Synced ${ago}`;
+}
+
 function setSheetBar(live, msg) {
   document.getElementById('sheetDot').className = live ? 'dot-live' : 'dot-offline';
   document.getElementById('sheetBarText').textContent = msg;
+  if (live) lastSyncedAt = Date.now();
 }
 
 function setRefreshSpinner(on) {
@@ -858,9 +921,10 @@ function setRefreshSpinner(on) {
 //  MODAL
 // ─────────────────────────────────────────────
 function openModal(o) {
+  const role = getRole(o.name);
   document.getElementById('modalName').textContent = o.name;
   document.getElementById('modalSub').textContent  =
-    `${o.group}  ·  ${o.licType||'License type not recorded'}  ·  ID: ${o.id||'N/A'}`;
+    `${role.full}  ·  ${o.group}  ·  ${o.licType||'License type not recorded'}  ·  ID: ${o.id||'N/A'}`;
 
   const gCode=certCode(o.guardExp), cCode=certCode(o.cprExp);
   const a24=annualStatus(o,CY-2), a25=annualStatus(o,CY-1), a26=annualStatus(o,CY);
@@ -888,7 +952,7 @@ function openModal(o) {
   }
   function annRow(yr,st,field) {
     let val;
-    if(st==='na')       val=`<span class="comp-val na">Not required</span>`;
+    if(st==='na')            val=`<span class="comp-val na">Not required</span>`;
     else if(st==='done')     val=`<span class="comp-val ok">✓ ${fmtDate(o[field])}</span>`;
     else if(st==='due')      val=`<span class="comp-val warn">Due by Dec 31, ${yr}</span>`;
     else if(st==='norecord') val=`<span class="comp-val na">No record on file</span>`;
@@ -911,7 +975,7 @@ function openModal(o) {
     <div class="nys-compliance-box">
       <div class="box-title">NYS GBL §89-n Compliance</div>
       ${licRow()}${preRow()}${ojtRow()}
-      ${annRow(CY,a26,'inservice2026')}${annRow(CY-1,a25,'inservice2025')}${annRow(CY-2,a24,'inservice2024')}
+      ${annRow(CY,a26,YEAR_FIELDS[CY])}${annRow(CY-1,a25,YEAR_FIELDS[CY-1])}${annRow(CY-2,a24,YEAR_FIELDS[CY-2])}
     </div>
     <div class="modal-section">
       <h4>License &amp; CPR</h4>
